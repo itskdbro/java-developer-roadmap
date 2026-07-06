@@ -1,4 +1,5 @@
 package Inheritence;
 
-public class Bmw extends {
+public class Bmw extends Inheritence.Car {
+
 }
