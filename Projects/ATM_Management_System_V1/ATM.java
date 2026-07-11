@@ -1,4 +1,4 @@
-package Day8.ATMManagementSystem;
+package Projects.ATM_Management_System_V1;
 
 import Day8.ATMManagementSystem.CustomExceptions.InsufficientBalanceException;
 import Day8.ATMManagementSystem.CustomExceptions.InvalidPinException;

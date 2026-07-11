@@ -1,6 +1,5 @@
-package Day8.ATMManagementSystem.CustomExceptions;
 
-import Day8.ATMManagementSystem.ATM;
+package Projects.ATM_Management_System_V1;
 
 import java.util.Scanner;
 
