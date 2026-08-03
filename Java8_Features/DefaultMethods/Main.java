@@ -1,0 +1,9 @@
+package Java8_Features.DefaultMethods;
+
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.start();
+        car.stop();
+    }
+}
