@@ -1,70 +1,52 @@
 package com.keshav.Springboot_learning.Controller;
 
 import com.keshav.Springboot_learning.Entity.Student;
+import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
+import com.keshav.Springboot_learning.Service.StudentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    List<Student> students = new ArrayList<>();
 
-    public StudentController() {
-        Student s1 = new Student(101, "Keshav", 23);
-        Student s2 = new Student(102, "Ravi", 24);
-        students.add(s1);
-        students.add(s2);
+    private StudentService studentService;
+    public StudentController(StudentService studentService){
+        this.studentService = studentService;
     }
 
     @GetMapping
-    public List<Student> getAllStudent() {
-        return students;
+    public ResponseEntity<List<Student>> getAllStudent() {
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Integer id) {
-        for (Student student : students) {
-            if (student.getId() == id) {
-                return student;
-            }
-        }
-        return null;
+    public ResponseEntity<Student> getStudentById(@PathVariable Integer id) {
+       return studentService.getStudentById(id);
     }
 
-    @PostMapping("/add")
-    public String addStudent(@RequestBody Student student) {
-        if (student != null) {
-            students.add(student);
-            return "Student added Successfully";
-        }
-        return "Failed to add Student !!!";
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> getStudentByAge(@RequestParam Integer age) {
+        return studentService.getStudentByAge(age);
+    }
+
+    @PostMapping
+    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+        Student savedStudent = studentService.addStudent(student);
+        return ResponseEntity.status(201).body(savedStudent);
     }
 
     @PutMapping("/update/{id}")
-    public String updateStudent(@PathVariable Integer id, @RequestBody Student updatedStudent) {
-        for (Student student : students) {
-            if (student.getId() == id) {
-                student.setName(updatedStudent.getName());
-                student.setAge(updatedStudent.getAge());
-                return "Student details updated Successfully";
-            }
-        }
-        return "Student Not Found";
+    public ResponseEntity<Student> updateStudent(@PathVariable Integer id, @RequestBody Student updatedStudent) {
+      return  ResponseEntity.ok(studentService.updateStudent(id,updatedStudent));
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable Integer id) {
-        for (Student student : students) {
-            if (student.getId() == id) {
-                students.remove(student);
-                return "Student removed Successfully";
-            }
-        }
-        return "Student Not Found";
-
+    public ResponseEntity<String> deleteStudent(@PathVariable Integer id) {
+        return studentService.deleteStudent(id);
     }
 
 }
