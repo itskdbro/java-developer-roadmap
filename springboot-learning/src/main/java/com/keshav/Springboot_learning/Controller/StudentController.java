@@ -1,12 +1,9 @@
 package com.keshav.Springboot_learning.Controller;
 
 import com.keshav.Springboot_learning.Entity.Student;
-import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
 import com.keshav.Springboot_learning.Service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,12 +22,12 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Integer id) {
-       return studentService.getStudentById(id);
+       return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<Student>> getStudentByAge(@RequestParam Integer age) {
-        return studentService.getStudentByAge(age);
+        return ResponseEntity.ok(studentService.getStudentByAge(age));
     }
 
     @PostMapping
@@ -46,7 +43,8 @@ public class StudentController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Integer id) {
-        return studentService.deleteStudent(id);
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok("Student Removed Successfully");
     }
 
 }

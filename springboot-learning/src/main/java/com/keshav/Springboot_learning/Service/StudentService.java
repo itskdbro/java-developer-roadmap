@@ -5,8 +5,6 @@ import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
 import com.keshav.Springboot_learning.Repository.StudentRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,30 +16,17 @@ public class StudentService {
         this.studentRepo = studentRepo;
     }
 
-    List<Student> students = new ArrayList<>();
-
-
     public List<Student> getAllStudents() {
         return studentRepo.findAll();
     }
 
-    public ResponseEntity<Student> getStudentById(Integer id) {
-        for (Student student : students) {
-            if (student.getId() == id) {
-                return ResponseEntity.ok(student);
-            }
-        }
-        throw new StudentNotFoundException("Student with ID " + id + " not found");
+    public Student getStudentById(Integer id) {
+        return studentRepo.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
+
     }
 
-    public ResponseEntity<List<Student>> getStudentByAge(Integer age) {
-        List<Student> studentList = new ArrayList<>();
-        for (Student student : students) {
-            if (student.getAge() == age) {
-                studentList.add(student);
-            }
-        }
-        return ResponseEntity.ok(studentList);
+    public List<Student> getStudentByAge(Integer age) {
+        return studentRepo.findByAge(age);
     }
 
     public Student addStudent(Student student) {
@@ -49,15 +34,15 @@ public class StudentService {
     }
 
     public Student updateStudent(Integer id, Student updatedStudent) {
-        return studentRepo.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
+        Student existingStudent = studentRepo.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
+        existingStudent.setName(updatedStudent.getName());
+        existingStudent.setAge(updatedStudent.getAge());
 
+        return studentRepo.save(existingStudent);
     }
 
-    public ResponseEntity<String> deleteStudent(Integer id) {
-        boolean removed = students.removeIf(student -> student.getId() == id);
-        if (removed) {
-            return ResponseEntity.ok("Student Removed Successfully");
-        }
-        throw new StudentNotFoundException("Student with ID " + id + " not found");
+    public void deleteStudent(Integer id) {
+        Student existingStudent = studentRepo.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
+        studentRepo.delete(existingStudent);
     }
 }
