@@ -5,6 +5,7 @@ import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
 import com.keshav.Springboot_learning.Repository.StudentRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -44,5 +45,21 @@ public class StudentService {
     public void deleteStudent(Integer id) {
         Student existingStudent = studentRepo.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
         studentRepo.delete(existingStudent);
+    }
+
+    public List<Student> getStudentByNameAndAge(String name, Integer age) {
+        return studentRepo.findByNameAndAge(name, age);
+    }
+
+    public List<Student> getStudentByAgeGreaterThan(Integer age) {
+        return studentRepo.findByAgeGreaterThan(age);
+    }
+
+    public List<Student> getStudentByNameContaining(String name) {
+        return studentRepo.findByNameContaining(name);
+    }
+
+    public List<Student> getStudentByAgeYOungerThan(Integer age) {
+        return studentRepo.findStudentsYoungerThan(age);
     }
 }
