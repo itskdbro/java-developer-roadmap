@@ -3,6 +3,9 @@ package com.keshav.Springboot_learning.Service;
 import com.keshav.Springboot_learning.Entity.Student;
 import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
 import com.keshav.Springboot_learning.Repository.StudentRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +64,28 @@ public class StudentService {
 
     public List<Student> getStudentByAgeYOungerThan(Integer age) {
         return studentRepo.findStudentsYoungerThan(age);
+    }
+
+    public List<Student> getStudents(String name, Integer age) {
+        return studentRepo.searchStudents(name, age);
+    }
+
+    public List<Student> getStudentBySortedAge() {
+//        return studentRepo.findAll(Sort.by("age"));   // Ascending order
+        return studentRepo.findAll(Sort.by(Sort.Direction.DESC, "Age"));
+    }
+
+    public List<Student> getSortedStudents(String field, String direction) {
+        Sort sort;
+        if (direction.equalsIgnoreCase("ASC")) {
+            sort = Sort.by(Sort.Direction.ASC, field);
+        } else {
+            sort = Sort.by(Sort.Direction.DESC, field);
+        }
+        return studentRepo.findAll(sort);
+    }
+
+    public Page<Student> getStudents(Pageable pageable) {
+        return studentRepo.findAll(pageable);
     }
 }
