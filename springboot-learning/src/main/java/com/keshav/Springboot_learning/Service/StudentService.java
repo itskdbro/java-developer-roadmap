@@ -1,5 +1,6 @@
 package com.keshav.Springboot_learning.Service;
 
+import com.keshav.Springboot_learning.DTO.StudentDTO;
 import com.keshav.Springboot_learning.Entity.Student;
 import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
 import com.keshav.Springboot_learning.Repository.StudentRepo;
@@ -33,8 +34,13 @@ public class StudentService {
         return studentRepo.findByAge(age);
     }
 
-    public Student addStudent(Student student) {
-        return studentRepo.save(student);
+    public StudentDTO addStudent(StudentDTO studentDTO) {
+        Student student = new Student();
+        student.setName(studentDTO.getName());
+        student.setAge(studentDTO.getAge());
+
+        Student savedStudent = studentRepo.save(student);
+        return new StudentDTO(savedStudent.getName(), savedStudent.getAge());
     }
 
     public Student updateStudent(Integer id, Student updatedStudent) {

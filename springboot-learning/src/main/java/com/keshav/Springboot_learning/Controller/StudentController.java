@@ -1,7 +1,9 @@
 package com.keshav.Springboot_learning.Controller;
 
+import com.keshav.Springboot_learning.DTO.StudentDTO;
 import com.keshav.Springboot_learning.Entity.Student;
 import com.keshav.Springboot_learning.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -75,9 +77,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        Student savedStudent = studentService.addStudent(student);
-        return ResponseEntity.status(201).body(savedStudent);
+    public ResponseEntity<StudentDTO> addStudent(@RequestBody StudentDTO studentDTO) {
+        return ResponseEntity.status(201).body(studentService.addStudent(studentDTO));
     }
 
     @PutMapping("/update/{id}")
