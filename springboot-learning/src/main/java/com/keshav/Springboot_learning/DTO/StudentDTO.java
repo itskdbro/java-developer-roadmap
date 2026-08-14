@@ -1,15 +1,16 @@
 package com.keshav.Springboot_learning.DTO;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 
 public class StudentDTO {
     @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 30, message = "Name must be between 2 and 30 characters")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name can contain only letters")
     private String name;
 
-    @NotBlank(message = "Age is required")
-    @Min(value = 18,message = "Age must be atleast 18")
+    @NotNull(message = "Age is required")
+    @Min(value = 18, message = "Age must be atleast 18")
+    @Max(value = 60, message = "Age must not exceed 60")
     private Integer age;
 
     public StudentDTO(String name, Integer age) {

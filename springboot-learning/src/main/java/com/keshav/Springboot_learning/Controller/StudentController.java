@@ -77,7 +77,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentDTO> addStudent(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> addStudent(@Valid @RequestBody StudentDTO studentDTO) {
         return ResponseEntity.status(201).body(studentService.addStudent(studentDTO));
     }
 

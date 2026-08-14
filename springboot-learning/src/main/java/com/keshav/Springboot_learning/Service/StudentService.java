@@ -3,6 +3,7 @@ package com.keshav.Springboot_learning.Service;
 import com.keshav.Springboot_learning.DTO.StudentDTO;
 import com.keshav.Springboot_learning.Entity.Student;
 import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
+import com.keshav.Springboot_learning.Mapper.StudentMapper;
 import com.keshav.Springboot_learning.Repository.StudentRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +17,11 @@ import java.util.List;
 public class StudentService {
 
     private StudentRepo studentRepo;
+    private StudentMapper studentMapper;
 
-    public StudentService(StudentRepo studentRepo) {
+    public StudentService(StudentRepo studentRepo, StudentMapper studentMapper) {
         this.studentRepo = studentRepo;
+        this.studentMapper = studentMapper;
     }
 
     public List<Student> getAllStudents() {
@@ -35,12 +38,9 @@ public class StudentService {
     }
 
     public StudentDTO addStudent(StudentDTO studentDTO) {
-        Student student = new Student();
-        student.setName(studentDTO.getName());
-        student.setAge(studentDTO.getAge());
-
+        Student student = studentMapper.toEntity(studentDTO);
         Student savedStudent = studentRepo.save(student);
-        return new StudentDTO(savedStudent.getName(), savedStudent.getAge());
+        return studentMapper.toDTO(savedStudent);
     }
 
     public Student updateStudent(Integer id, Student updatedStudent) {
