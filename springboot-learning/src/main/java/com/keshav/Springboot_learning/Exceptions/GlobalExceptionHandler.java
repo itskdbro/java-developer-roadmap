@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
     // Genric Exceptions - 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenricException(Exception ex) {
+        ex.printStackTrace();
         ErrorResponse error = new ErrorResponse(500, "Something went wrong", LocalDateTime.now());
         return ResponseEntity.status(500).body(error);
     }

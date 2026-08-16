@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentRepo extends JpaRepository<Student, Integer> {
     List<Student> findByAge(Integer age);
@@ -29,4 +30,7 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     List<Student> searchStudents(
             @Param("name") String name,
             @Param("age") Integer age);
+
+    @Query("SELECT s FROM Student s LEFT JOIN FETCH s.courses WHERE s.id = :id")
+    Optional<Student> findStudentWithCourses(@Param("id") Integer id);
 }

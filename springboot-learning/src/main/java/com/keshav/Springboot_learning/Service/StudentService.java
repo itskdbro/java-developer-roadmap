@@ -2,6 +2,7 @@ package com.keshav.Springboot_learning.Service;
 
 import com.keshav.Springboot_learning.DTO.StudentRequestDTO;
 import com.keshav.Springboot_learning.DTO.StudentResponseDTO;
+import com.keshav.Springboot_learning.Entity.Course;
 import com.keshav.Springboot_learning.Entity.Student;
 import com.keshav.Springboot_learning.Exceptions.StudentNotFoundException;
 import com.keshav.Springboot_learning.Mapper.StudentMapper;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,8 +30,10 @@ public class StudentService {
         return studentRepo.findAll().stream().map(studentMapper::toResponseDTO).toList();
     }
 
+
     public StudentResponseDTO getStudentById(Integer id) {
-        Student student = studentRepo.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found"));
+        Student student = studentRepo.findById(id).orElseThrow(() ->
+                new StudentNotFoundException("Student with ID " + id + " not found"));
         return studentMapper.toResponseDTO(student);
     }
 
@@ -93,5 +97,10 @@ public class StudentService {
 
     public Page<StudentResponseDTO> getStudents(Pageable pageable) {
         return studentRepo.findAll(pageable).map(studentMapper::toResponseDTO);
+    }
+
+    public List<Course> getCourseByStudent(Integer studentID) {
+        Student student = studentRepo.findById(studentID).orElseThrow(() -> new StudentNotFoundException("Student with ID " + studentID + " not found"));
+        return student.getCourses();
     }
 }

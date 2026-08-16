@@ -2,6 +2,7 @@ package com.keshav.Springboot_learning.Controller;
 
 import com.keshav.Springboot_learning.DTO.StudentRequestDTO;
 import com.keshav.Springboot_learning.DTO.StudentResponseDTO;
+import com.keshav.Springboot_learning.Entity.Course;
 import com.keshav.Springboot_learning.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -74,6 +75,11 @@ public class StudentController {
     @GetMapping("/page")
     public ResponseEntity<Page<StudentResponseDTO>> getStudents(Pageable pageable) {
         return ResponseEntity.ok(studentService.getStudents(pageable));
+    }
+
+    @GetMapping("{studentId}/courses")
+    public ResponseEntity<List<Course>> getCoursesByStudent(@PathVariable Integer studentId) {
+        return ResponseEntity.ok(studentService.getCourseByStudent(studentId));
     }
 
     @PostMapping

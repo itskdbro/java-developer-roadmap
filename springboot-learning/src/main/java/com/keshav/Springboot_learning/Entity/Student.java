@@ -1,9 +1,9 @@
 package com.keshav.Springboot_learning.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -12,13 +12,18 @@ public class Student {
     private Integer id;
     private String name;
     private Integer age;
+    @OneToMany(mappedBy = "student")
+    private List<Course> courses = new ArrayList<>();
 
-    public Student(Integer id, String name, Integer age) {
+    public Student(Integer id, String name, Integer age, List<Course> courses) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.courses = courses;
     }
-    public Student(){}
+
+    public Student() {
+    }
 
     public Integer getAge() {
         return age;
@@ -43,5 +48,13 @@ public class Student {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }
