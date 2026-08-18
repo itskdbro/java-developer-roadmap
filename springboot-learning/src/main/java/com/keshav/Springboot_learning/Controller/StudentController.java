@@ -3,6 +3,7 @@ package com.keshav.Springboot_learning.Controller;
 import com.keshav.Springboot_learning.DTO.StudentRequestDTO;
 import com.keshav.Springboot_learning.DTO.StudentResponseDTO;
 import com.keshav.Springboot_learning.Entity.Course;
+import com.keshav.Springboot_learning.Entity.Student;
 import com.keshav.Springboot_learning.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -98,4 +99,14 @@ public class StudentController {
         return ResponseEntity.ok("Student Removed Successfully");
     }
 
+    @PostMapping("/test-cascade")
+    public ResponseEntity<Student> testCascade(){
+        return ResponseEntity.status(201).body(studentService.testCascade());
+    }
+
+    @GetMapping("/test-lazy/{id}")
+    public ResponseEntity<String> testLazy(@PathVariable Integer id){
+        Student student = studentService.testLazy(id);
+        return ResponseEntity.ok(student.getName());
+    }
 }

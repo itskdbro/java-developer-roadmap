@@ -1,6 +1,8 @@
 package com.keshav.Springboot_learning.Entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Student {
     private String name;
     private Integer age;
     @OneToMany(mappedBy = "student")
+    @Cascade(CascadeType.PERSIST)
     private List<Course> courses = new ArrayList<>();
 
     public Student(Integer id, String name, Integer age, List<Course> courses) {

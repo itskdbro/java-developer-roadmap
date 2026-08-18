@@ -103,4 +103,23 @@ public class StudentService {
         Student student = studentRepo.findById(studentID).orElseThrow(() -> new StudentNotFoundException("Student with ID " + studentID + " not found"));
         return student.getCourses();
     }
+
+    public Student testCascade() {
+        Student student = new Student();
+        student.setName("Rahul");
+        student.setAge(22);
+
+        Course course = new Course();
+        course.setName("Java");
+        course.setDuration(60);
+
+        course.setStudent(student);
+        student.getCourses().add(course);
+
+        return studentRepo.save(student);
+    }
+
+    public Student testLazy(Integer id) {
+        return studentRepo.findById(id).orElseThrow(()->new StudentNotFoundException("Student with ID " + id + " not found"));
+    }
 }
